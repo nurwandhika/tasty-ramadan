@@ -35,7 +35,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - .env
     - assets/animations/cooking.json
     - assets/animations/loading.json
     - assets/animations/loading2.json
