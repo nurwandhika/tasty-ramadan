@@ -18,6 +18,9 @@ jobs:
           channel: 'stable'
           cache: false
 
+      - name: Check Git installation
+        run: git --version
+
       - name: Check Flutter version
         run: flutter --version
 
