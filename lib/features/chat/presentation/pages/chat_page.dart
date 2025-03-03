@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../providers/chat_provider.dart';
 import 'favorites_page.dart';
@@ -24,14 +24,16 @@ class _ChatPageState extends State<ChatPage> {
     for (var line in lines) {
       // Handle titles (##)
       if (line.startsWith('## ')) {
-        spans.add(TextSpan(
-          text: '${line.substring(3)}\n',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            height: 2,
+        spans.add(
+          TextSpan(
+            text: '${line.substring(3)}\n',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              height: 2,
+            ),
           ),
-        ));
+        );
         continue;
       }
 
@@ -40,12 +42,14 @@ class _ChatPageState extends State<ChatPage> {
       if (boldParts.length > 1) {
         for (var i = 0; i < boldParts.length; i++) {
           if (boldParts[i].isEmpty) continue;
-          spans.add(TextSpan(
-            text: '${boldParts[i]}${i == boldParts.length - 1 ? '\n' : ''}',
-            style: TextStyle(
-              fontWeight: i % 2 == 1 ? FontWeight.bold : FontWeight.normal,
+          spans.add(
+            TextSpan(
+              text: '${boldParts[i]}${i == boldParts.length - 1 ? '\n' : ''}',
+              style: TextStyle(
+                fontWeight: i % 2 == 1 ? FontWeight.bold : FontWeight.normal,
+              ),
             ),
-          ));
+          );
         }
       } else {
         spans.add(TextSpan(text: '$line\n'));
@@ -162,7 +166,7 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: const Icon(Icons.favorite, color: Color(0xFFD84040)),
+            icon: const Icon(Icons.favorite, color: Color(0xFF007AFF)),
             onPressed: () {
               Navigator.push(
                 context,
@@ -187,49 +191,90 @@ class _ChatPageState extends State<ChatPage> {
                       final message = chatProvider.messages[index];
                       return message.isUser
                           ? Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 4),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Color(0xFF007AFF),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            message.text,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      )
-                          : Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 4),
-                          padding: const EdgeInsets.all(12),
-                          constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFE1E1E1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: MarkdownBody(
-                            data: message.text,
-                            styleSheet: MarkdownStyleSheet(
-                              p: TextStyle(
-                                color: Color(0xFF1A1A1D),
-                                height: 1.5,
+                            alignment: Alignment.centerRight,
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                vertical: 6,
+                                horizontal: 8,
                               ),
-                              h2: TextStyle(
-                                color: Color(0xFF1A1A1D),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                height: 2,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF007AFF),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(4),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                message.text,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      );
+                          )
+                          : Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                vertical: 6,
+                                horizontal: 8,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(4),
+                                  bottomRight: Radius.circular(20),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: MarkdownBody(
+                                data: message.text,
+                                styleSheet: MarkdownStyleSheet(
+                                  p: TextStyle(
+                                    color: Color(0xFF1A1A1D),
+                                    height: 1.5,
+                                    fontSize: 16,
+                                  ),
+                                  h2: TextStyle(
+                                    color: Color(0xFF1A1A1D),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    height: 2,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
                     },
                   );
                 },
@@ -237,9 +282,10 @@ class _ChatPageState extends State<ChatPage> {
             ),
             if (context.watch<ChatProvider>().showOptions)
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Wrap(
-                  spacing: 8.0,
+                  spacing: 10.0,
+                  runSpacing: 10.0,
                   children:
                       context.watch<ChatProvider>().options.map((option) {
                         final isSelected = context
@@ -256,13 +302,29 @@ class _ChatPageState extends State<ChatPage> {
                                 isSelected ? Color(0xFF007AFF) : Colors.white,
                             foregroundColor:
                                 isSelected ? Colors.white : Color(0xFF007AFF),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              side: BorderSide(
+                                color:
+                                    isSelected
+                                        ? Colors.transparent
+                                        : Color(0xFF007AFF),
+                                width: 1,
+                              ),
+                            ),
+                            elevation: isSelected ? 2 : 0,
                           ),
                           child: Text(
                             option,
                             style: TextStyle(
                               color:
                                   isSelected ? Colors.white : Color(0xFF1A1A1D),
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
                             ),
                           ),
                         );
@@ -272,69 +334,138 @@ class _ChatPageState extends State<ChatPage> {
             if (context.watch<ChatProvider>().step == 6 &&
                 context.watch<ChatProvider>().showOptions)
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed:
-                      context
-                              .watch<ChatProvider>()
-                              .selectedIngredients
-                              .isNotEmpty
-                          ? () => context.read<ChatProvider>().selectOption(
-                            'Lanjut',
-                          )
-                          : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 8.0,
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed:
                         context
                                 .watch<ChatProvider>()
                                 .selectedIngredients
                                 .isNotEmpty
-                            ? Color(0xFF007AFF)
-                            : Colors.grey,
-                    foregroundColor: Colors.white,
+                            ? () => context.read<ChatProvider>().selectOption(
+                              'Lanjut',
+                            )
+                            : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          context
+                                  .watch<ChatProvider>()
+                                  .selectedIngredients
+                                  .isNotEmpty
+                              ? Color(0xFF007AFF)
+                              : Colors.grey[300],
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation:
+                          context
+                                  .watch<ChatProvider>()
+                                  .selectedIngredients
+                                  .isNotEmpty
+                              ? 2
+                              : 0,
+                    ),
+                    child: Text(
+                      'Lanjut',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
-                  child: const Text('Lanjut'),
                 ),
               ),
             if (context.watch<ChatProvider>().messages.isNotEmpty &&
                 context.watch<ChatProvider>().messages.last.text ==
                     'Tambahkan resep ini ke menu favorit jika kamu suka ya!')
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        final chatProvider = context.read<ChatProvider>();
-                        if (chatProvider.isFavorite()) {
-                          chatProvider.removeFavoriteRecipe();
-                          _showFavoriteDialog(context, false);
-                        } else {
-                          chatProvider.saveFavoriteRecipe();
-                          _showFavoriteDialog(context, true);
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Color(0xFF007AFF),
-                      ),
-                      child: Text(
-                        context.watch<ChatProvider>().isFavorite()
-                            ? 'Batal Favorite'
-                            : 'Favorite',
-                        style: TextStyle(color: Color(0xFF1A1A1D)),
+                    // Replace the existing favorite button with this code
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          final chatProvider = context.read<ChatProvider>();
+                          if (chatProvider.isFavorite()) {
+                            chatProvider.removeFavoriteRecipe();
+                            _showFavoriteDialog(context, false);
+                          } else {
+                            chatProvider.saveFavoriteRecipe();
+                            _showFavoriteDialog(context, true);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              context.watch<ChatProvider>().isFavorite()
+                                  ? Color(
+                                    0xFFD84040,
+                                  ) // Red background for "Batal Favorite"
+                                  : Color(0xFF007AFF),
+                          // Blue background for "Favorite"
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(
+                              color:
+                                  context.watch<ChatProvider>().isFavorite()
+                                      ? Color(
+                                        0xFFD84040,
+                                      ) // Red border for "Batal Favorite"
+                                      : Color(0xFF007AFF),
+                              // Blue border for "Favorite"
+                              width: 1,
+                            ),
+                          ),
+                          elevation: 2,
+                        ),
+                        child: Text(
+                          context.watch<ChatProvider>().isFavorite()
+                              ? 'Batal Favorite'
+                              : 'Favorite',
+                          style: TextStyle(
+                            color: Colors.white, // White text for both states
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed:
-                          () =>
-                              context.read<ChatProvider>().resetConversation(),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Color(0xFF1A1A1D),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed:
+                            () =>
+                                context
+                                    .read<ChatProvider>()
+                                    .resetConversation(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Color(0xFF1A1A1D),
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(
+                              color: Color(0xFF1A1A1D),
+                              width: 1,
+                            ),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: Text(
+                          'Buat Resep Lain',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),
                       ),
-                      child: const Text('Buat Resep Lain'),
                     ),
                   ],
                 ),
