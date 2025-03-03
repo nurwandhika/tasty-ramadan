@@ -11,6 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Remove existing Flutter
+        run: |
+          if [ -d "$FLUTTER_ROOT" ]; then
+            rm -rf "$FLUTTER_ROOT"
+          fi
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -18,14 +24,13 @@ jobs:
           channel: 'stable'
           cache: false
 
-      - name: Check Git installation
-        run: git --version
-
-      - name: Check Flutter version
-        run: flutter --version
+      - name: Flutter doctor
+        run: flutter doctor -v
 
       - name: Build Web
         run: |
+          flutter clean
+          flutter pub upgrade
           flutter config --enable-web
           flutter pub get
           flutter build web --release
