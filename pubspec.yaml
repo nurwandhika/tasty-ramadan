@@ -1,13 +1,13 @@
 name: tasty_ramadan
 description: "A new Flutter project."
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 version: 1.0.0+1
 
 environment:
-    sdk: '>=3.0.0 <4.0.0'
-    flutter: ">=3.0.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
@@ -20,7 +20,6 @@ dependencies:
   flutter_markdown: ^0.6.10
   sqflite: ^2.0.0+4
   path: ^1.8.0
-
   flutter_staggered_grid_view: ^0.6.1
   animations: ^2.0.0
   flutter_svg: ^1.0.3
@@ -40,4 +39,3 @@ flutter:
     - assets/animations/cooking.json
     - assets/animations/loading.json
     - assets/animations/loading2.json
-
